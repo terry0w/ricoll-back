@@ -1,40 +1,3 @@
--- =============================================================
---  TABLA: products
---  Ajusta las restricciones (PK, FK, NOT NULL, CHECK, etc.)
---  según tus necesidades antes de ejecutar.
--- =============================================================
-CREATE TABLE IF NOT EXISTS products (
-    product_id        INTEGER,
-    set_name          VARCHAR(50),
-    name              VARCHAR(100),
-    clean_name        VARCHAR(100),
-    image_url         VARCHAR(100),
-    category_id       INTEGER,
-    group_id          INTEGER,
-    url               VARCHAR(50),
-    modified_on       TIMESTAMP,
-    image_count       INTEGER,
-    low_price         NUMERIC(10,2),
-    mid_price         NUMERIC(10,2),
-    high_price        NUMERIC(10,2),
-    market_price      NUMERIC(10,2),
-    direct_low_price  NUMERIC(10,2),
-    sub_type_name     VARCHAR(20),
-    ext_rarity        VARCHAR(20),
-    ext_number        VARCHAR(20),
-    ext_description   TEXT,
-    ext_energy_cost   SMALLINT,
-    ext_power_cost    SMALLINT,
-    ext_might         SMALLINT,
-    ext_card_type     VARCHAR(30),
-    ext_tag           VARCHAR(50),
-    ext_domain        VARCHAR(20),
-    ext_flavor_text   TEXT
-);
-
--- =============================================================
---  INSERCIONES
--- =============================================================
 
 -- ---- Origins (528 filas) ----
 INSERT INTO products (
@@ -45,16 +8,6 @@ INSERT INTO products (
     ext_energy_cost, ext_power_cost, ext_might,
     ext_card_type, ext_tag, ext_domain, ext_flavor_text
 ) VALUES
-    (635366, 'origins', 'Origins - Booster Pack', 'Origins Booster Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/635366_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/l967', '2025-10-31T04:10:11', 1, 12.97, 14.0, 21.0, 14.22, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (635368, 'origins', 'Origins - Booster Display', 'Origins Booster Display', 'https://tcgplayer-cdn.tcgplayer.com/product/635368_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/n967', '2025-10-31T04:10:11', 1, 223.01, 320.0, 1000.0, 221.09, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (635369, 'origins', 'Origins - Booster Display Case', 'Origins Booster Display Case', 'https://tcgplayer-cdn.tcgplayer.com/product/635369_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/p967', '2025-10-31T04:10:11', 1, 1469.68, 1527.89, 10000.0, 1585.78, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (635371, 'origins', 'Origins - Champion Deck (Jinx)', 'Origins Champion Deck Jinx', 'https://tcgplayer-cdn.tcgplayer.com/product/635371_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/r967', '2025-10-31T04:10:11', 1, 23.0, 30.02, 64.99, 27.01, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (635372, 'origins', 'Origins - Champion Deck (Jinx) Display', 'Origins Champion Deck Jinx Display', 'https://tcgplayer-cdn.tcgplayer.com/product/635372_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/s967', '2025-10-31T04:10:11', 1, 129.95, 137.49, 200.0, 115.14, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (635373, 'origins', 'Origins - Champion Deck (Viktor) Display', 'Origins Champion Deck Viktor Display', 'https://tcgplayer-cdn.tcgplayer.com/product/635373_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/t967', '2025-10-31T04:10:11', 1, 258.0, 272.98, 274.97, 131.56, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (635374, 'origins', 'Origins - Champion Deck (Viktor)', 'Origins Champion Deck Viktor', 'https://tcgplayer-cdn.tcgplayer.com/product/635374_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/v967', '2025-10-31T04:10:11', 1, 39.3, 49.57, 68.0, 51.68, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (635375, 'origins', 'Origins - Champion Deck (Lee Sin)', 'Origins Champion Deck Lee Sin', 'https://tcgplayer-cdn.tcgplayer.com/product/635375_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/w967', '2025-10-31T04:10:11', 1, 31.98, 40.0, 49.99, 38.54, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (635458, 'origins', 'Origins - Champion Deck (Lee Sin) Display', 'Origins Champion Deck Lee Sin Display', 'https://tcgplayer-cdn.tcgplayer.com/product/635458_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/bc67', '2025-10-31T04:10:11', 1, 199.99, 200.0, 200.0, 102.32, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (635459, 'origins', 'Origins - Sleeved Booster Pack', 'Origins Sleeved Booster Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/635459_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/cc67', '2025-10-31T04:10:11', 1, 8.99, 14.23, 29.99, 12.93, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (652771, 'origins', 'Blazing Scorcher', 'Blazing Scorcher', 'https://tcgplayer-cdn.tcgplayer.com/product/652771_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/r7f7', '2026-03-06T20:26:58', 1, 0.05, 0.27, 99.0, 0.26, NULL, 'Foil', 'Common', '001/298', 'ACCELERATE <em>(You may pay 1 and 1 Fury as an additional cost to have me enter ready.)</em>', 5, 0, 5, 'Unit', 'Noxus;Dragon', 'Fury', NULL),
     (652771, 'origins', 'Blazing Scorcher', 'Blazing Scorcher', 'https://tcgplayer-cdn.tcgplayer.com/product/652771_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/r7f7', '2026-03-06T20:26:58', 1, 0.01, 0.2, 3.0, 0.13, NULL, 'Normal', 'Common', '001/298', 'ACCELERATE <em>(You may pay 1 and 1 Fury as an additional cost to have me enter ready.)</em>', 5, 0, 5, 'Unit', 'Noxus;Dragon', 'Fury', NULL),
     (652772, 'origins', 'Brazen Buccaneer', 'Brazen Buccaneer', 'https://tcgplayer-cdn.tcgplayer.com/product/652772_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/s7f7', '2025-10-31T04:10:11', 1, 0.01, 0.2, 5.0, 0.06, NULL, 'Normal', 'Common', '002/298', 'As you play me, you may discard a card as an additional cost. If you do, reduce my cost by 2.', 6, 0, 5, 'Unit', 'Bilgewater;Pirate', 'Fury', '<em>"They called my crew ''scurvy dogs,'' and I took that personally."</em>'),
@@ -834,10 +787,8 @@ When you conquer, ready me.', NULL, NULL, NULL, 'Legend', 'Sett', 'Body;Order', 
     (660169, 'origins', 'Recruit (271) // Buff', 'Recruit 271 Buff', 'https://tcgplayer-cdn.tcgplayer.com/product/660169_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/p5j7', '2025-10-31T04:10:11', 2, 0.01, 0.2, 3.0, 0.14, NULL, 'Normal', 'Common', '271/298', NULL, 0, 0, 1, 'Unit;Token', 'Recruit', NULL, '<em>To strike against any of us is to strike against all of us!</em>'),
     (660170, 'origins', 'Recruit (272) // Buff', 'Recruit 272 Buff', 'https://tcgplayer-cdn.tcgplayer.com/product/660170_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/q5j7', '2025-10-31T04:10:11', 2, 0.01, 0.2, 3.0, 0.13, NULL, 'Normal', 'Common', '272/298', NULL, 0, 0, 1, NULL, NULL, NULL, '<em>"Few earn the right to call themselves Trifarian."</em>'),
     (660171, 'origins', 'Recruit (273) // Buff', 'Recruit 273 Buff', 'https://tcgplayer-cdn.tcgplayer.com/product/660171_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/r5j7', '2025-10-31T04:10:11', 1, 0.01, 0.24, 3.0, 0.19, NULL, 'Normal', 'Common', '273/298', NULL, 0, 0, 1, NULL, NULL, NULL, '<em>"We are the future."</em>'),
-    (662994, 'origins', 'Sprite (274) // Buff', 'Sprite 274 Buff', 'https://tcgplayer-cdn.tcgplayer.com/product/662994_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/Vck7', '2025-11-13T12:36:10', 2, 0.02, 0.2, 1.8, 0.1, NULL, 'Normal', 'Common', '274/298', 'TEMPORARY <em>(Kill me at the start of your Beginning Phase before scoring.)</em>', 0, 0, 3, 'Unit;Token', 'Fae', NULL, '<em>Dreams rarely linger, but the dreamer is still changed.</em>'),
-    (675404, 'origins', 'Origins - Nexus Night Promo Pack', 'Origins Nexus Night Promo Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/675404_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/6bq7', '2026-03-03T20:15:42', 1, 14.44, 22.5, 99.99, 17.15, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (690173, 'origins', 'Origins - Sleeved Booster Pack Art Bundle [Set of 3]', 'Origins Sleeved Booster Pack Art Bundle Set of 3', 'https://tcgplayer-cdn.tcgplayer.com/product/690173_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/t5x7', '2026-05-01T14:35:01', 1, 47.86, 49.88, 59.99, NULL, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
+    (662994, 'origins', 'Sprite (274) // Buff', 'Sprite 274 Buff', 'https://tcgplayer-cdn.tcgplayer.com/product/662994_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/Vck7', '2025-11-13T12:36:10', 2, 0.02, 0.2, 1.8, 0.1, NULL, 'Normal', 'Common', '274/298', 'TEMPORARY <em>(Kill me at the start of your Beginning Phase before scoring.)</em>', 0, 0, 3, 'Unit;Token', 'Fae', NULL, '<em>Dreams rarely linger, but the dreamer is still changed.</em>');
+    
 
 -- ---- Origins Proving Grounds (30 filas) ----
 INSERT INTO products (
@@ -848,7 +799,7 @@ INSERT INTO products (
     ext_energy_cost, ext_power_cost, ext_might,
     ext_card_type, ext_tag, ext_domain, ext_flavor_text
 ) VALUES
-    (635460, 'origins_proving_grounds', 'Origins - Proving Grounds Box Set', 'Origins Proving Grounds Box Set', 'https://tcgplayer-cdn.tcgplayer.com/product/635460_200w.jpg', 89, 24439, 'https://cpt.tcgcsv.com/dc67', '2025-11-14T16:39:52', 1, 108.99, 149.97, 500.0, 150.58, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    
     (653136, 'origins_proving_grounds', 'Annie - Fiery', 'Annie Fiery', 'https://tcgplayer-cdn.tcgplayer.com/product/653136_200w.jpg', 89, 24439, 'https://cpt.tcgcsv.com/Lgf7', '2025-10-31T19:12:48', 1, 2.74, 3.46, 10.0, 3.36, NULL, 'Normal', 'Epic', '001/024', 'Your spells and abilities deal 1 Bonus Damage.<br>
 <em>(Each instance of damage they deal is increased by 1.)</em>', 5, 1, 4, 'Champion Unit', 'Annie', 'Fury', '<em>"I never play with matches."</em>'),
     (653137, 'origins_proving_grounds', 'Firestorm', 'Firestorm', 'https://tcgplayer-cdn.tcgplayer.com/product/653137_200w.jpg', 89, 24439, 'https://cpt.tcgcsv.com/Mgf7', '2025-10-31T18:48:20', 1, 0.35, 0.55, 3.75, 0.49, NULL, 'Normal', 'Uncommon', '002/024', 'Deal 3 to all enemy units at a battlefield.', 6, 1, 0, 'Spell', NULL, 'Fury', '<em>"Eeny, meeny, miny, burn!" -Annie</em>'),
@@ -908,13 +859,6 @@ INSERT INTO products (
     ext_energy_cost, ext_power_cost, ext_might,
     ext_card_type, ext_tag, ext_domain, ext_flavor_text
 ) VALUES
-    (661934, 'spiritforged', 'Spiritforged - Booster Display', 'Spiritforged Booster Display', 'https://tcgplayer-cdn.tcgplayer.com/product/661934_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/JNj7', '2026-02-13T05:10:19', 1, 144.97, 175.0, 300.95, 151.34, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (661937, 'spiritforged', 'Spiritforged - Booster Display Case', 'Spiritforged Booster Display Case', 'https://tcgplayer-cdn.tcgplayer.com/product/661937_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/MNj7', '2026-02-13T05:10:19', 1, 840.0, 1012.49, 2499.99, 890.39, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (661939, 'spiritforged', 'Spiritforged - Champion Deck (Rumble)', 'Spiritforged Champion Deck Rumble', 'https://tcgplayer-cdn.tcgplayer.com/product/661939_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/PNj7', '2026-02-13T05:10:19', 1, 16.5, 26.62, 47.01, 20.76, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (661942, 'spiritforged', 'Spiritforged - Champion Deck (Fiora)', 'Spiritforged Champion Deck Fiora', 'https://tcgplayer-cdn.tcgplayer.com/product/661942_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/SNj7', '2026-02-13T05:10:19', 1, 29.95, 39.0, 57.99, 32.58, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (661948, 'spiritforged', 'Spiritforged - Champion Deck (Rumble) Display', 'Spiritforged Champion Deck Rumble Display', 'https://tcgplayer-cdn.tcgplayer.com/product/661948_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/-Nj7', '2026-02-13T05:10:19', 1, 58.9, 78.77, 199.99, 99.68, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (661949, 'spiritforged', 'Spiritforged - Champion Deck (Fiora) Display', 'Spiritforged Champion Deck Fiora Display', 'https://tcgplayer-cdn.tcgplayer.com/product/661949_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/_Nj7', '2026-02-13T05:10:19', 1, 92.8, 99.96, 199.99, 104.91, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (661954, 'spiritforged', 'Spiritforged - Booster Pack', 'Spiritforged Booster Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/661954_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/6Pj7', '2026-02-13T05:10:19', 1, 6.0, 7.4, 555.0, 6.88, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (663430, 'spiritforged', 'Trinity Force', 'Trinity Force', 'https://tcgplayer-cdn.tcgplayer.com/product/663430_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/Dnk7', '2026-02-13T05:10:19', 1, 0.06, 0.39, 20.0, 0.39, NULL, 'Foil', 'Rare', '115/221', '[EQUIP Body] <em>(Body: Attach this to a unit you control.)</em>
 <br>
 When I hold, score 1 point. +2 Might', 4, 0, 0, 'Gear', 'Equipment', 'Body', NULL),
@@ -1827,14 +1771,8 @@ A unit may have no more than one buff at a time.', 0, 0, 2, 'Gear;Token', NULL, 
     (678229, 'spiritforged', 'Mind Rune (Alternate Art)', 'Mind Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/678229_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/Cjr7', '2026-02-13T05:10:19', 1, 5.5, 9.0, 30.0, 6.91, NULL, 'Foil', 'Showcase', 'R03a', NULL, 0, 0, 0, 'Rune', NULL, 'Mind', NULL),
     (678231, 'spiritforged', 'Body Rune (Alternate Art)', 'Body Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/678231_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/Fjr7', '2026-02-13T05:10:19', 1, 3.0, 6.0, 29.99, 4.76, NULL, 'Foil', 'Showcase', 'R04a', NULL, 0, 0, 0, 'Rune', NULL, 'Body', NULL),
     (678232, 'spiritforged', 'Chaos Rune (Alternate Art)', 'Chaos Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/678232_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/Gjr7', '2026-02-13T05:10:19', 1, 7.41, 11.26, 49.99, 8.22, NULL, 'Foil', 'Showcase', 'R05a', NULL, 0, 0, 0, 'Rune', NULL, 'Chaos', NULL),
-    (678233, 'spiritforged', 'Order Rune (Alternate Art)', 'Order Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/678233_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/Hjr7', '2026-02-13T05:10:19', 1, 6.66, 8.99, 24.77, 6.83, NULL, 'Foil', 'Showcase', 'R06a', NULL, 0, 0, 0, 'Rune', NULL, 'Order', NULL),
-    (678690, 'spiritforged', 'Spiritforged - Pre-Rift Event Kit', 'Spiritforged Pre Rift Event Kit', 'https://tcgplayer-cdn.tcgplayer.com/product/678690_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/Qtr7', '2026-02-25T16:51:24', 1, 1999.99, 1999.99, 1999.99, 85.06, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678766, 'spiritforged', 'Spiritforged - Sleeved Booster Pack', 'Spiritforged Sleeved Booster Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/678766_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/lwr7', '2026-02-15T20:38:33', 1, 6.65, 9.0, 15.0, 7.68, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (679041, 'spiritforged', 'Spiritforged - Pre-Rift Kit', 'Spiritforged Pre Rift Kit', 'https://tcgplayer-cdn.tcgplayer.com/product/679041_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/RDr7', '2026-04-17T15:49:47', 1, 30.0, 54.98, 64.99, 56.19, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (680454, 'spiritforged', 'Spiritforged - Nexus Night Promo Pack', 'Spiritforged Nexus Night Promo Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/680454_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/6cs7', '2026-02-25T20:50:09', 1, 9.99, 11.3, 43.5, 11.46, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (690174, 'spiritforged', 'Spiritforged - Sleeved Booster Pack Art Bundle [Set of 3]', 'Spiritforged Sleeved Booster Pack Art Bundle Set of 3', 'https://tcgplayer-cdn.tcgplayer.com/product/690174_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/v5x7', '2026-05-01T14:35:36', 1, 33.99, 34.85, 34.88, NULL, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
-
-
+    (678233, 'spiritforged', 'Order Rune (Alternate Art)', 'Order Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/678233_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/Hjr7', '2026-02-13T05:10:19', 1, 6.66, 8.99, 24.77, 6.83, NULL, 'Foil', 'Showcase', 'R06a', NULL, 0, 0, 0, 'Rune', NULL, 'Order', NULL);
+  
 -- ---- Unleashed (420 filas) ----
 INSERT INTO products (
     product_id, set_name, name, clean_name, image_url,
@@ -1844,16 +1782,6 @@ INSERT INTO products (
     ext_energy_cost, ext_power_cost, ext_might,
     ext_card_type, ext_tag, ext_domain, ext_flavor_text
 ) VALUES
-    (678149, 'unleashed', 'Unleashed - Booster Pack', 'Unleashed Booster Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/678149_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/_gr7', '2026-03-12T18:26:57', 1, 7.95, 12.99, 29.0, 13.88, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678150, 'unleashed', 'Unleashed - Booster Display', 'Unleashed Booster Display', 'https://tcgplayer-cdn.tcgplayer.com/product/678150_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/0hr7', '2026-02-10T21:41:50', 1, 133.99, 153.95, 273.31, 142.27, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678152, 'unleashed', 'Unleashed - Booster Display Case', 'Unleashed Booster Display Case', 'https://tcgplayer-cdn.tcgplayer.com/product/678152_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/3hr7', '2026-02-10T22:02:24', 1, 857.87, 884.92, 1444.98, 879.02, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678153, 'unleashed', 'Unleashed - Champion Deck (Vex) Display', 'Unleashed Champion Deck Vex Display', 'https://tcgplayer-cdn.tcgplayer.com/product/678153_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/5hr7', '2026-02-10T21:46:54', 1, 149.99, 189.33, 189.99, NULL, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678154, 'unleashed', 'Unleashed - Champion Deck (Vi) Display', 'Unleashed Champion Deck Vi Display', 'https://tcgplayer-cdn.tcgplayer.com/product/678154_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/6hr7', '2026-02-10T22:03:39', 1, 149.99, 189.99, 192.01, 193.0, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678155, 'unleashed', 'Unleashed - Champion Deck (Vex)', 'Unleashed Champion Deck Vex', 'https://tcgplayer-cdn.tcgplayer.com/product/678155_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/7hr7', '2026-02-10T21:49:51', 1, 39.69, 43.87, 48.99, 43.65, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678157, 'unleashed', 'Unleashed - Champion Deck (Vi)', 'Unleashed Champion Deck Vi', 'https://tcgplayer-cdn.tcgplayer.com/product/678157_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/9hr7', '2026-02-24T15:18:57', 1, 39.88, 39.9, 48.36, 39.92, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678159, 'unleashed', 'Unleashed - Pre-Rift Event Kit', 'Unleashed Pre Rift Event Kit', 'https://tcgplayer-cdn.tcgplayer.com/product/678159_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/chr7', '2026-02-25T16:50:16', 1, 749.99, 798.97, 899.99, 855.97, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678162, 'unleashed', 'Unleashed - Vault Bundle', 'Unleashed Vault Bundle', 'https://tcgplayer-cdn.tcgplayer.com/product/678162_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/ghr7', '2026-02-10T22:04:39', 1, 71.7, 75.85, 79.99, 69.89, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (678898, 'unleashed', 'Unleashed - Pre-Rift Kit', 'Unleashed Pre Rift Kit', 'https://tcgplayer-cdn.tcgplayer.com/product/678898_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/-zr7', '2026-05-05T12:30:22', 1, 29.99, 46.49, 60.0, 43.49, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (683790, 'unleashed', 'Baron Nashor', 'Baron Nashor', 'https://tcgplayer-cdn.tcgplayer.com/product/683790_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Qwt7', '2026-03-17T21:21:17', 1, 65.5, 67.86, 89.95, 76.53, NULL, 'Foil', 'Epic', '147/219', 'As you play me, add the Baron Pit battlefield token to the board if it''s not there already. If you do, I enter there. <em>(It has "Units can move here from anywhere.")</em>
 <br>
 I can''t be chosen by enemy spells and abilities.
@@ -2812,11 +2740,5 @@ Allow me to demonstrate."</em>'),
     (686336, 'unleashed', 'Soul Harvest', 'Soul Harvest', 'https://tcgplayer-cdn.tcgplayer.com/product/686336_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Lxv7', '2026-03-28T14:00:27', 1, 0.77, 1.99, 4.2, NULL, NULL, 'Foil', 'Common', '159/219', 'Kill a unit at a battlefield with 3 Might or less.', 2, 1, 0, 'Spell', NULL, 'Order', '<em>It won''t hurt a bit—it''ll hurt a LOT.</em>'),
     (686337, 'unleashed', 'Shard of Undoing', 'Shard of Undoing', 'https://tcgplayer-cdn.tcgplayer.com/product/686337_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Mxv7', '2026-03-28T13:59:35', 1, 2.06, 2.76, 15.0, 4.79, NULL, 'Foil', 'Rare', '174/219', 'The first time a friendly unit dies during your Beginning Phase each turn, each opponent must kill one of their units.', 6, 0, 0, 'Gear', NULL, 'Order', '<em>Treasure is eternal. It''s life that''s fleeting.</em>'),
     (686338, 'unleashed', 'Valley of Idols', 'Valley of Idols', 'https://tcgplayer-cdn.tcgplayer.com/product/686338_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Nxv7', '2026-03-28T13:59:20', 1, 0.34, 0.48, 1.48, 0.67, NULL, 'Normal', 'Uncommon', '218/219', 'When a player plays a unit here, they may pay  to [BUFF] it. <em>(Give it a +1 Might buff if it doesn''t have one.)</em>', 0, 0, 0, 'Battlefield', NULL, NULL, NULL),
-    (686338, 'unleashed', 'Valley of Idols', 'Valley of Idols', 'https://tcgplayer-cdn.tcgplayer.com/product/686338_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Nxv7', '2026-03-28T13:59:20', 1, 4.94, 4.97, 4.99, 4.99, NULL, 'Foil', 'Uncommon', '218/219', 'When a player plays a unit here, they may pay  to [BUFF] it. <em>(Give it a +1 Might buff if it doesn''t have one.)</em>', 0, 0, 0, 'Battlefield', NULL, NULL, NULL),
-    (690175, 'unleashed', 'Unleashed - Sleeved Booster Pack Art Bundle [Set of 3]', 'Unleashed Sleeved Booster Pack Art Bundle Set of 3', 'https://tcgplayer-cdn.tcgplayer.com/product/690175_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/w5x7', '2026-05-01T14:37:23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (692932, 'unleashed', 'Fury Rune (Alternate Art)', 'Fury Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/692932_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Gbz7', '2026-05-01T18:57:57', 1, 14.91, 16.89, 22.96, 16.94, NULL, 'Foil', 'Showcase', 'R01a', NULL, 0, 0, 0, 'Rune', NULL, 'Fury', NULL),
-    (692933, 'unleashed', 'Calm Rune (Alternate Art)', 'Calm Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/692933_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Hbz7', '2026-05-01T18:57:42', 1, 14.88, 15.0, 24.99, 13.14, NULL, 'Foil', 'Showcase', 'R02a', NULL, 0, 0, 0, 'Rune', NULL, 'Calm', NULL),
-    (692934, 'unleashed', 'Mind Rune (Alternate Art)', 'Mind Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/692934_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Jbz7', '2026-05-01T18:58:01', 1, 13.0, 16.6, 27.01, 15.97, NULL, 'Foil', 'Showcase', 'R03a', NULL, 0, 0, 0, 'Rune', NULL, 'Mind', NULL),
-    (692935, 'unleashed', 'Body Rune (Alternate Art)', 'Body Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/692935_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Kbz7', '2026-05-01T18:57:35', 1, 13.88, 16.92, 22.65, 19.5, NULL, 'Foil', 'Showcase', 'R04a', NULL, 0, 0, 0, 'Rune', NULL, 'Body', NULL),
-    (692936, 'unleashed', 'Chaos Rune (Alternate Art)', 'Chaos Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/692936_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Lbz7', '2026-05-01T18:58:39', 1, 11.68, 13.47, 24.99, 11.75, NULL, 'Foil', 'Showcase', 'R05a', NULL, 0, 0, 0, 'Rune', NULL, 'Chaos', NULL),
-    (692937, 'unleashed', 'Order Rune (Alternate Art)', 'Order Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/692937_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Mbz7', '2026-05-01T19:00:04', 1, 18.0, 24.74, 30.0, NULL, NULL, 'Foil', 'Showcase', 'R06a', NULL, 0, 0, 0, 'Rune', NULL, 'Order', NULL);
+    (686338, 'unleashed', 'Valley of Idols', 'Valley of Idols', 'https://tcgplayer-cdn.tcgplayer.com/product/686338_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Nxv7', '2026-03-28T13:59:20', 1, 4.94, 4.97, 4.99, 4.99, NULL, 'Foil', 'Uncommon', '218/219', 'When a player plays a unit here, they may pay  to [BUFF] it. <em>(Give it a +1 Might buff if it doesn''t have one.)</em>', 0, 0, 0, 'Battlefield', NULL, NULL, NULL);
+    

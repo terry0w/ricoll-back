@@ -1,34 +1,23 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Param, Query } from '@nestjs/common';
 import { CatalogService } from './catalog.service';
-import { CreateCatalogDto } from './dto/create-catalog.dto';
-import { UpdateCatalogDto } from './dto/update-catalog.dto';
 
 @Controller('catalog')
 export class CatalogController {
   constructor(private readonly catalogService: CatalogService) {}
 
-  @Post()
-  create(@Body() createCatalogDto: CreateCatalogDto) {
-    return this.catalogService.create(createCatalogDto);
-  }
-
   @Get()
-  findAll() {
-    return this.catalogService.findAll();
+  findAll(
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+  ) {
+    return this.catalogService.findAll(
+      limit ? +limit : 50,
+      offset ? +offset : 0,
+    );
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.catalogService.findOne(+id);
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCatalogDto: UpdateCatalogDto) {
-    return this.catalogService.update(+id, updateCatalogDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.catalogService.remove(+id);
+  @Get(':id/:subType')
+  findOne(@Param('id') id: string, @Param('subType') subType: string) {
+    return this.catalogService.findOne(+id, subType);
   }
 }
