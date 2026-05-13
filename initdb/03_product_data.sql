@@ -1,3 +1,11 @@
+INSERT INTO productos (
+    product_id, set_name, name, clean_name, image_url,
+    category_id, group_id, url, modified_on, image_count,
+    low_price, mid_price, high_price, market_price, direct_low_price,
+    sub_type_name, ext_rarity, ext_number, ext_description,
+    ext_energy_cost, ext_power_cost, ext_might,
+    ext_card_type, ext_tag, ext_domain, ext_flavor_text
+) VALUES
     --OGN
     (635366, 'origins', 'Origins - Booster Pack', 'Origins Booster Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/635366_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/l967', '2025-10-31T04:10:11', 1, 12.97, 14.0, 21.0, 14.22, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (635368, 'origins', 'Origins - Booster Display', 'Origins Booster Display', 'https://tcgplayer-cdn.tcgplayer.com/product/635368_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/n967', '2025-10-31T04:10:11', 1, 223.01, 320.0, 1000.0, 221.09, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -10,18 +18,12 @@
     (635458, 'origins', 'Origins - Champion Deck (Lee Sin) Display', 'Origins Champion Deck Lee Sin Display', 'https://tcgplayer-cdn.tcgplayer.com/product/635458_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/bc67', '2025-10-31T04:10:11', 1, 199.99, 200.0, 200.0, 102.32, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (635459, 'origins', 'Origins - Sleeved Booster Pack', 'Origins Sleeved Booster Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/635459_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/cc67', '2025-10-31T04:10:11', 1, 8.99, 14.23, 29.99, 12.93, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (675404, 'origins', 'Origins - Nexus Night Promo Pack', 'Origins Nexus Night Promo Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/675404_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/6bq7', '2026-03-03T20:15:42', 1, 14.44, 22.5, 99.99, 17.15, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (690173, 'origins', 'Origins - Sleeved Booster Pack Art Bundle [Set of 3]', 'Origins Sleeved Booster Pack Art Bundle Set of 3', 'https://tcgplayer-cdn.tcgplayer.com/product/690173_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/t5x7', '2026-05-01T14:35:01', 1, 47.86, 49.88, 59.99, NULL, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    (690173, 'origins', 'Origins - Sleeved Booster Pack Art Bundle [Set of 3]', 'Origins Sleeved Booster Pack Art Bundle Set of 3', 'https://tcgplayer-cdn.tcgplayer.com/product/690173_200w.jpg', 89, 24344, 'https://cpt.tcgcsv.com/t5x7', '2026-05-01T14:35:01', 1, 47.86, 49.88, 59.99, NULL, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 
-
-
-
-
-    ---OGS
+    --OGS
     (635460, 'origins_proving_grounds', 'Origins - Proving Grounds Box Set', 'Origins Proving Grounds Box Set', 'https://tcgplayer-cdn.tcgplayer.com/product/635460_200w.jpg', 89, 24439, 'https://cpt.tcgcsv.com/dc67', '2025-11-14T16:39:52', 1, 108.99, 149.97, 500.0, 150.58, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 
-
-
-    ---SFD
+    --SPF
     (661934, 'spiritforged', 'Spiritforged - Booster Display', 'Spiritforged Booster Display', 'https://tcgplayer-cdn.tcgplayer.com/product/661934_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/JNj7', '2026-02-13T05:10:19', 1, 144.97, 175.0, 300.95, 151.34, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (661937, 'spiritforged', 'Spiritforged - Booster Display Case', 'Spiritforged Booster Display Case', 'https://tcgplayer-cdn.tcgplayer.com/product/661937_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/MNj7', '2026-02-13T05:10:19', 1, 840.0, 1012.49, 2499.99, 890.39, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (661939, 'spiritforged', 'Spiritforged - Champion Deck (Rumble)', 'Spiritforged Champion Deck Rumble', 'https://tcgplayer-cdn.tcgplayer.com/product/661939_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/PNj7', '2026-02-13T05:10:19', 1, 16.5, 26.62, 47.01, 20.76, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -33,14 +35,9 @@
     (678766, 'spiritforged', 'Spiritforged - Sleeved Booster Pack', 'Spiritforged Sleeved Booster Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/678766_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/lwr7', '2026-02-15T20:38:33', 1, 6.65, 9.0, 15.0, 7.68, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (679041, 'spiritforged', 'Spiritforged - Pre-Rift Kit', 'Spiritforged Pre Rift Kit', 'https://tcgplayer-cdn.tcgplayer.com/product/679041_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/RDr7', '2026-04-17T15:49:47', 1, 30.0, 54.98, 64.99, 56.19, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (680454, 'spiritforged', 'Spiritforged - Nexus Night Promo Pack', 'Spiritforged Nexus Night Promo Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/680454_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/6cs7', '2026-02-25T20:50:09', 1, 9.99, 11.3, 43.5, 11.46, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (690174, 'spiritforged', 'Spiritforged - Sleeved Booster Pack Art Bundle [Set of 3]', 'Spiritforged Sleeved Booster Pack Art Bundle Set of 3', 'https://tcgplayer-cdn.tcgplayer.com/product/690174_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/v5x7', '2026-05-01T14:35:36', 1, 33.99, 34.85, 34.88, NULL, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+    (690174, 'spiritforged', 'Spiritforged - Sleeved Booster Pack Art Bundle [Set of 3]', 'Spiritforged Sleeved Booster Pack Art Bundle Set of 3', 'https://tcgplayer-cdn.tcgplayer.com/product/690174_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/v5x7', '2026-05-01T14:35:36', 1, 33.99, 34.85, 34.88, NULL, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 
-
-
-
-
-
-    ---UNL
+    --UNL
     (678149, 'unleashed', 'Unleashed - Booster Pack', 'Unleashed Booster Pack', 'https://tcgplayer-cdn.tcgplayer.com/product/678149_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/_gr7', '2026-03-12T18:26:57', 1, 7.95, 12.99, 29.0, 13.88, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (678150, 'unleashed', 'Unleashed - Booster Display', 'Unleashed Booster Display', 'https://tcgplayer-cdn.tcgplayer.com/product/678150_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/0hr7', '2026-02-10T21:41:50', 1, 133.99, 153.95, 273.31, 142.27, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (678152, 'unleashed', 'Unleashed - Booster Display Case', 'Unleashed Booster Display Case', 'https://tcgplayer-cdn.tcgplayer.com/product/678152_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/3hr7', '2026-02-10T22:02:24', 1, 857.87, 884.92, 1444.98, 879.02, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -51,7 +48,17 @@
     (678159, 'unleashed', 'Unleashed - Pre-Rift Event Kit', 'Unleashed Pre Rift Event Kit', 'https://tcgplayer-cdn.tcgplayer.com/product/678159_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/chr7', '2026-02-25T16:50:16', 1, 749.99, 798.97, 899.99, 855.97, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (678162, 'unleashed', 'Unleashed - Vault Bundle', 'Unleashed Vault Bundle', 'https://tcgplayer-cdn.tcgplayer.com/product/678162_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/ghr7', '2026-02-10T22:04:39', 1, 71.7, 75.85, 79.99, 69.89, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
     (678898, 'unleashed', 'Unleashed - Pre-Rift Kit', 'Unleashed Pre Rift Kit', 'https://tcgplayer-cdn.tcgplayer.com/product/678898_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/-zr7', '2026-05-05T12:30:22', 1, 29.99, 46.49, 60.0, 43.49, NULL, 'Normal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-    (690175, 'unleashed', 'Unleashed - Sleeved Booster Pack Art Bundle [Set of 3]', 'Unleashed Sleeved Booster Pack Art Bundle Set of 3', 'https://tcgplayer-cdn.tcgplayer.com/product/690175_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/w5x7', '2026-05-01T14:37:23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+    (690175, 'unleashed', 'Unleashed - Sleeved Booster Pack Art Bundle [Set of 3]', 'Unleashed Sleeved Booster Pack Art Bundle Set of 3', 'https://tcgplayer-cdn.tcgplayer.com/product/690175_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/w5x7', '2026-05-01T14:37:23', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+
+INSERT INTO variants (
+    product_id, set_name, name, clean_name, image_url,
+    category_id, group_id, url, modified_on, image_count,
+    low_price, mid_price, high_price, market_price, direct_low_price,
+    sub_type_name, ext_rarity, ext_number, ext_description,
+    ext_energy_cost, ext_power_cost, ext_might,
+    ext_card_type, ext_tag, ext_domain, ext_flavor_text
+) VALUES
+    --UNL Showcase Runes
     (692932, 'unleashed', 'Fury Rune (Alternate Art)', 'Fury Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/692932_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Gbz7', '2026-05-01T18:57:57', 1, 14.91, 16.89, 22.96, 16.94, NULL, 'Foil', 'Showcase', 'R01a', NULL, 0, 0, 0, 'Rune', NULL, 'Fury', NULL),
     (692933, 'unleashed', 'Calm Rune (Alternate Art)', 'Calm Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/692933_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Hbz7', '2026-05-01T18:57:42', 1, 14.88, 15.0, 24.99, 13.14, NULL, 'Foil', 'Showcase', 'R02a', NULL, 0, 0, 0, 'Rune', NULL, 'Calm', NULL),
     (692934, 'unleashed', 'Mind Rune (Alternate Art)', 'Mind Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/692934_200w.jpg', 89, 24560, 'https://cpt.tcgcsv.com/Jbz7', '2026-05-01T18:58:01', 1, 13.0, 16.6, 27.01, 15.97, NULL, 'Foil', 'Showcase', 'R03a', NULL, 0, 0, 0, 'Rune', NULL, 'Mind', NULL),

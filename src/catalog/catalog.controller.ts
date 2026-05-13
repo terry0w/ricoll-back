@@ -11,13 +11,35 @@ export class CatalogController {
     @Query('offset') offset?: string,
   ) {
     return this.catalogService.findAll(
-      limit ? +limit : 50,
+      limit ? +limit : 100,
       offset ? +offset : 0,
     );
   }
 
-  @Get(':id/:subType')
-  findOne(@Param('id') id: string, @Param('subType') subType: string) {
-    return this.catalogService.findOne(+id, subType);
+  @Get('cards')
+  getCards(
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+  ) {
+    return this.catalogService.getCards(
+      limit ? +limit : 100,
+      offset ? +offset : 0,
+    );
+  }
+
+  @Get('cards-and-variants')
+  getCardsAndVariants(
+    @Query('limit') limit?: string,
+    @Query('offset') offset?: string,
+  ) {
+    return this.catalogService.getCardsAndVariants(
+      limit ? +limit : 100,
+      offset ? +offset : 0,
+    );
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.catalogService.findOne(+id);
   }
 }

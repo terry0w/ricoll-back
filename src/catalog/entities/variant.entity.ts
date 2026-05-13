@@ -1,9 +1,12 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
-@Entity('cards')
-export class Product {
+@Entity('variants')
+export class Variant {
   @PrimaryColumn({ name: 'product_id', type: 'int' })
   productId!: number;
+
+  @PrimaryColumn({ name: 'sub_type_name', length: 20 })
+  subTypeName!: string;
 
   @Column({ name: 'set_name', length: 50, nullable: true })
   setName!: string;
@@ -46,9 +49,6 @@ export class Product {
 
   @Column({ name: 'direct_low_price', type: 'decimal', precision: 10, scale: 2, nullable: true })
   directLowPrice!: number;
-
-  @Column({ name: 'sub_type_name', length: 20, nullable: true })
-  subTypeName!: string;
 
   @Column({ name: 'ext_rarity', length: 20, nullable: true })
   extRarity!: string;

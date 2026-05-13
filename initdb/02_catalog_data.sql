@@ -1,6 +1,6 @@
 
 -- ---- Origins (528 filas) ----
-INSERT INTO products (
+INSERT INTO variants (
     product_id, set_name, name, clean_name, image_url,
     category_id, group_id, url, modified_on, image_count,
     low_price, mid_price, high_price, market_price, direct_low_price,
@@ -791,7 +791,7 @@ When you conquer, ready me.', NULL, NULL, NULL, 'Legend', 'Sett', 'Body;Order', 
     
 
 -- ---- Origins Proving Grounds (30 filas) ----
-INSERT INTO products (
+INSERT INTO variants (
     product_id, set_name, name, clean_name, image_url,
     category_id, group_id, url, modified_on, image_count,
     low_price, mid_price, high_price, market_price, direct_low_price,
@@ -851,7 +851,7 @@ Spells and abilities affecting units here each deal 1 Bonus Damage. <em>(Each in
 
 
 -- ---- Spiritforged (439 filas) ----
-INSERT INTO products (
+INSERT INTO variants (
     product_id, set_name, name, clean_name, image_url,
     category_id, group_id, url, modified_on, image_count,
     low_price, mid_price, high_price, market_price, direct_low_price,
@@ -1774,7 +1774,7 @@ A unit may have no more than one buff at a time.', 0, 0, 2, 'Gear;Token', NULL, 
     (678233, 'spiritforged', 'Order Rune (Alternate Art)', 'Order Rune Alternate Art', 'https://tcgplayer-cdn.tcgplayer.com/product/678233_200w.jpg', 89, 24519, 'https://cpt.tcgcsv.com/Hjr7', '2026-02-13T05:10:19', 1, 6.66, 8.99, 24.77, 6.83, NULL, 'Foil', 'Showcase', 'R06a', NULL, 0, 0, 0, 'Rune', NULL, 'Order', NULL);
   
 -- ---- Unleashed (420 filas) ----
-INSERT INTO products (
+INSERT INTO variants (
     product_id, set_name, name, clean_name, image_url,
     category_id, group_id, url, modified_on, image_count,
     low_price, mid_price, high_price, market_price, direct_low_price,
