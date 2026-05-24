@@ -1,31 +1,40 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
+import { AuthModule } from './auth/auth.module';
+import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { CatalogModule } from './catalog/catalog.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
-    // 1. Cargamos el módulo de configuración
-    ConfigModule.forRoot({
-      isGlobal: true, // Para que esté disponible en todos tus módulos sin re-importar
-    }),
-
-    // 2. Usamos forRootAsync para esperar a que las variables se carguen
+    ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
-        type: configService.get<string>('DB_TYPE') as any,
+        type: configService.get<string>('DB_TYPE') as 'postgres',
         host: configService.get<string>('DB_HOST'),
         port: configService.get<number>('DB_PORT'),
         username: configService.get<string>('DB_USERNAME'),
         password: configService.get<string>('DB_PASSWORD'),
         database: configService.get<string>('DB_DATABASE'),
         autoLoadEntities: true,
-        synchronize: true, // Recuerda: en producción esto debe ser false
+        // En desarrollo TypeORM crea las tablas nuevas automáticamente
+        synchronize: configService.get('NODE_ENV') !== 'production',
       }),
     }),
+    AuthModule,
+    UsersModule,
     CatalogModule,
+  ],
+  providers: [
+    // Guard global: todas las rutas requieren JWT salvo las marcadas con @IsPublic()
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
   ],
 })
 export class AppModule {}

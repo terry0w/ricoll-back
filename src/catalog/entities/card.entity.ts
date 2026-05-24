@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('cards')
-export class Product {
+export class Card {
   @PrimaryColumn({ name: 'product_id', type: 'int' })
   productId!: number;
 
