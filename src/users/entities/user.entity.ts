@@ -11,8 +11,23 @@ export class User {
   @Column({ length: 50 })
   username!: string;
 
+  @Column({ type: 'varchar', unique: true, length: 50, nullable: true })
+  nickname!: string | null;
+
   @Column()
   password!: string;
+
+  @Column({ type: 'varchar', nullable: true })
+  verificationToken!: string | null;
+
+  @Column({ name: 'verified_at', type: 'timestamptz', nullable: true })
+  verifiedAt!: Date | null;
+
+  @Column({ type: 'varchar', nullable: true })
+  resetPasswordToken!: string | null;
+
+  @Column({ name: 'reset_password_expires', type: 'timestamptz', nullable: true })
+  resetPasswordExpires!: Date | null;
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt!: Date;
