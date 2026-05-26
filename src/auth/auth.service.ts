@@ -40,7 +40,7 @@ export class AuthService {
     const user = await this.usersService.create(dto.email, dto.username, dto.nickname, hashed, verificationToken);
 
     // Fire-and-forget — don't block registration if email fails
-    this.mailService.sendWelcome(user.email, user.nickname!, verificationToken).catch((err) =>
+    this.mailService.sendWelcome(user.email, user.nickname!, verificationToken, user.id).catch((err) =>
       this.logger.error(`Failed to send welcome email to ${user.email}: ${err.message}`),
     );
 
@@ -83,7 +83,7 @@ export class AuthService {
     user.resetPasswordExpires = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24h
     await this.usersService.save(user);
 
-    this.mailService.sendPasswordReset(user.email, user.nickname!, resetToken).catch((err) =>
+    this.mailService.sendPasswordReset(user.email, user.nickname!, resetToken, user.id).catch((err) =>
       this.logger.error(`Failed to send reset email to ${user.email}: ${err.message}`),
     );
 

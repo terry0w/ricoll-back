@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { CatalogModule } from './catalog/catalog.module';
+import { EventsModule } from './events/events.module';
 import { UsersModule } from './users/users.module';
 
 @Module({
@@ -28,6 +29,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     UsersModule,
     CatalogModule,
+    EventsModule,
   ],
   providers: [
     // Guard global: todas las rutas requieren JWT salvo las marcadas con @IsPublic()
