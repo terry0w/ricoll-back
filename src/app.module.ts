@@ -15,17 +15,23 @@ import { UsersModule } from './users/users.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: configService.get<string>('DB_TYPE') as 'postgres',
-        host: configService.get<string>('DB_HOST'),
-        port: configService.get<number>('DB_PORT'),
-        username: configService.get<string>('DB_USERNAME'),
-        password: configService.get<string>('DB_PASSWORD'),
-        database: configService.get<string>('DB_DATABASE'),
-        ssl: configService.get('DB_SSL') === 'true' ? { rejectUnauthorized: false } : false,
-        autoLoadEntities: true,
-        synchronize: configService.get('NODE_ENV') !== 'production',
-      }),
+      useFactory: (configService: ConfigService) => {
+        const useSSL = configService.get('DB_SSL') === 'true'
+        const host   = configService.get<string>('DB_HOST') ?? ''
+        const endpointId = host.split('.')[0]
+        return {
+          type: configService.get<string>('DB_TYPE') as 'postgres',
+          host,
+          port: configService.get<number>('DB_PORT'),
+          username: configService.get<string>('DB_USERNAME'),
+          password: configService.get<string>('DB_PASSWORD'),
+          database: configService.get<string>('DB_DATABASE'),
+          ssl: useSSL ? { rejectUnauthorized: false } : false,
+          extra: useSSL ? { options: `endpoint=${endpointId}` } : undefined,
+          autoLoadEntities: true,
+          synchronize: configService.get('NODE_ENV') !== 'production',
+        }
+      },
     }),
     AuthModule,
     UsersModule,
