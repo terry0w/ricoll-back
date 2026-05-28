@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard';
 import { CatalogModule } from './catalog/catalog.module';
+import { CollectionModule } from './collection/collection.module';
 import { DecksModule } from './decks/decks.module';
 import { EventsModule } from './events/events.module';
 import { UsersModule } from './users/users.module';
@@ -46,6 +47,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     UsersModule,
     CatalogModule,
+    CollectionModule,
     DecksModule,
     EventsModule,
   ],
