@@ -42,6 +42,24 @@ export class DecksController {
     return this.decksService.findPublic(query);
   }
 
+  @Get('public/:id')
+  @IsPublic()
+  findPublicOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.decksService.findPublicOne(id);
+  }
+
+  @Get('public/:id/versions')
+  @IsPublic()
+  getPublicVersions(@Param('id', ParseUUIDPipe) id: string) {
+    return this.decksService.getPublicVersions(id);
+  }
+
+  @Get('public/:id/events')
+  @IsPublic()
+  getPublicEvents(@Param('id', ParseUUIDPipe) id: string) {
+    return this.decksService.getPublicEvents(id);
+  }
+
   @Get('game-events/all')
   @IsPublic()
   getGameEvents() {

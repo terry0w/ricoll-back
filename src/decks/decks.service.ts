@@ -145,6 +145,27 @@ export class DecksService implements OnModuleInit {
     }));
   }
 
+  async findPublicOne(deckId: string) {
+    const deck = await this.deckRepo.findOneBy({ id: deckId, public: true, legal: true });
+    if (!deck) return null;
+
+    const user = await this.userRepo.findOne({ where: { id: deck.userId } });
+
+    const allCardIds = [...new Set([
+      ...deck.mainDeck.map((e) => e.cardId),
+      ...(Array.isArray(deck.runes) ? deck.runes.map((e) => e.cardId) : []),
+      ...deck.battlefields,
+      ...(deck.sideboard ?? []).map((e) => e.cardId),
+    ])];
+    const cards    = await this.cardRepo.findBy({ productId: In(allCardIds) });
+    const priceMap = new Map(cards.map((c) => [c.productId, Number(c.marketPrice ?? c.lowPrice ?? 0)]));
+
+    return Object.assign(deck, {
+      authorNickname: user?.nickname ?? user?.username ?? 'Desconocido',
+      estimatedCost:  this.computeDeckCost(deck, priceMap),
+    });
+  }
+
   async findOne(userId: string, deckId: string): Promise<Deck & { authorNickname: string }> {
     const deck = await this.findOwned(userId, deckId);
     const user = await this.userRepo.findOne({ where: { id: userId } });
@@ -169,6 +190,22 @@ export class DecksService implements OnModuleInit {
 
   async getEvents(userId: string, deckId: string): Promise<DeckEvent[]> {
     await this.findOwned(userId, deckId);
+    return this.eventRepo.find({
+      where:     { deckId },
+      order:     { createdAt: 'DESC' },
+      relations: ['gameEvent'],
+    });
+  }
+
+  async getPublicVersions(deckId: string): Promise<DeckVersion[]> {
+    const deck = await this.deckRepo.findOneBy({ id: deckId, public: true, legal: true });
+    if (!deck) throw new NotFoundException('Deck no encontrado');
+    return this.versionRepo.findBy({ deckId });
+  }
+
+  async getPublicEvents(deckId: string): Promise<DeckEvent[]> {
+    const deck = await this.deckRepo.findOneBy({ id: deckId, public: true, legal: true });
+    if (!deck) throw new NotFoundException('Deck no encontrado');
     return this.eventRepo.find({
       where:     { deckId },
       order:     { createdAt: 'DESC' },
