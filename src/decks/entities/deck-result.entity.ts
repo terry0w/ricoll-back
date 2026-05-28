@@ -1,10 +1,8 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
-export enum MatchResult {
-  WIN  = 'win',
-  LOSS = 'loss',
-  DRAW = 'draw',
-}
+import { GameEvent } from './game-event.entity';
+
+export type GameOutcome = 'win' | 'loss' | 'draw';
 
 @Entity('deck_results')
 export class DeckResult {
@@ -14,26 +12,15 @@ export class DeckResult {
   @Column({ name: 'deck_id', type: 'uuid' })
   deckId!: string;
 
-  @Column({ name: 'version_id', type: 'uuid' })
-  versionId!: string;
+  @Column({ name: 'game_event_id', type: 'int' })
+  gameEventId!: number;
 
-  @Column({ name: 'opponent_legend_id', type: 'int' })
-  opponentLegendId!: number;
+  @ManyToOne(() => GameEvent, { eager: true })
+  @JoinColumn({ name: 'game_event_id' })
+  gameEvent!: GameEvent;
 
-  @Column({ type: 'enum', enum: MatchResult })
-  result!: MatchResult;
-
-  @Column({ name: 'games_won', type: 'smallint' })
-  gamesWon!: number;
-
-  @Column({ name: 'games_lost', type: 'smallint' })
-  gamesLost!: number;
-
-  @Column({ name: 'played_at', type: 'timestamptz' })
-  playedAt!: Date;
-
-  @Column({ type: 'text', nullable: true })
-  notes!: string | null;
+  @Column({ type: 'jsonb' })
+  games!: GameOutcome[];
 
   @CreateDateColumn({ name: 'created_at', type: 'timestamptz' })
   createdAt!: Date;

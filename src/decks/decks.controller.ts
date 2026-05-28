@@ -89,4 +89,10 @@ export class DecksController {
   getResults(@CurrentUser() user: TokenUser, @Param('id', ParseUUIDPipe) id: string) {
     return this.decksService.getResults(user.sub, id);
   }
+
+  @Get('/game-events/all')
+  @IsPublic()
+  getGameEvents() {
+    return this.decksService.findAllGameEvents();
+  }
 }

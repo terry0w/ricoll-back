@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   Injectable,
   NotFoundException,
+  OnModuleInit,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -12,9 +13,10 @@ import { CreateDeckRqDto } from './dto/create-deck-rq.dto';
 import { DeckResult } from './entities/deck-result.entity';
 import { DeckVersion } from './entities/deck-version.entity';
 import { Deck, DeckCardEntry } from './entities/deck.entity';
+import { GAME_EVENT_SEEDS, GameEvent } from './entities/game-event.entity';
 
 @Injectable()
-export class DecksService {
+export class DecksService implements OnModuleInit {
   constructor(
     @InjectRepository(Deck)
     private readonly deckRepo: Repository<Deck>,
@@ -22,30 +24,42 @@ export class DecksService {
     private readonly versionRepo: Repository<DeckVersion>,
     @InjectRepository(DeckResult)
     private readonly resultRepo: Repository<DeckResult>,
+    @InjectRepository(GameEvent)
+    private readonly gameEventRepo: Repository<GameEvent>,
   ) {}
+
+  async onModuleInit() {
+    const count = await this.gameEventRepo.count();
+    if (count === 0) {
+      await this.gameEventRepo.save(
+        GAME_EVENT_SEEDS.map((s) => this.gameEventRepo.create(s)),
+      );
+    }
+  }
+
+  findAllGameEvents(): Promise<GameEvent[]> {
+    return this.gameEventRepo.find({ order: { id: 'ASC' } });
+  }
 
   async create(userId: string, dto: CreateDeckRqDto): Promise<Deck> {
     const mainDeck  = dto.mainDeck  ?? [];
     const sideboard = dto.sideboard ?? [];
+    const legal     = this.checkLegal(mainDeck, dto.battlefields ?? [], dto.runes ?? []);
 
-    const legal = this.checkLegal(mainDeck, dto.battlefields ?? [], dto.runes ?? []);
-
-    if (dto.public && !legal) {
-      throw new BadRequestException('Un deck público debe ser legal');
-    }
+    if (dto.public && !legal) throw new BadRequestException('Un deck público debe ser legal');
 
     const deck = this.deckRepo.create({
       userId,
-      name:              dto.name,
-      public:            dto.public  ?? false,
+      name:             dto.name,
+      public:           dto.public          ?? false,
       legal,
-      legendId:          dto.legendId,
-      chosenChampionId:  dto.chosenChampionId ?? null,
+      legendId:         dto.legendId,
+      chosenChampionId: dto.chosenChampionId ?? null,
       mainDeck,
-      runes:             dto.runes        ?? {},
-      battlefields:      dto.battlefields ?? [],
+      runes:            dto.runes            ?? {},
+      battlefields:     dto.battlefields     ?? [],
       sideboard,
-      currentVersion:    1,
+      currentVersion:   1,
     });
 
     const saved = await this.deckRepo.save(deck);
@@ -54,15 +68,12 @@ export class DecksService {
   }
 
   async update(userId: string, deckId: string, dto: CreateDeckRqDto, note?: string, skipVersion = false): Promise<Deck> {
-    const deck = await this.findOwned(userId, deckId);
-
+    const deck      = await this.findOwned(userId, deckId);
     const mainDeck  = dto.mainDeck  ?? [];
     const sideboard = dto.sideboard ?? [];
     const legal     = this.checkLegal(mainDeck, dto.battlefields ?? [], dto.runes ?? []);
 
-    if (dto.public && !legal) {
-      throw new BadRequestException('Un deck público debe ser legal');
-    }
+    if (dto.public && !legal) throw new BadRequestException('Un deck público debe ser legal');
 
     deck.name             = dto.name;
     deck.public           = dto.public           ?? false;
@@ -74,24 +85,16 @@ export class DecksService {
     deck.battlefields     = dto.battlefields      ?? [];
     deck.sideboard        = sideboard;
 
-    if (!skipVersion) {
-      deck.currentVersion += 1;
-    }
+    if (!skipVersion) deck.currentVersion += 1;
 
     const saved = await this.deckRepo.save(deck);
-
-    if (!skipVersion) {
-      await this.saveVersion(saved, note ?? null);
-    }
-
+    if (!skipVersion) await this.saveVersion(saved, note ?? null);
     return saved;
   }
 
   async setPublic(userId: string, deckId: string, isPublic: boolean): Promise<Deck> {
     const deck = await this.findOwned(userId, deckId);
-    if (isPublic && !deck.legal) {
-      throw new BadRequestException('Un deck público debe ser legal');
-    }
+    if (isPublic && !deck.legal) throw new BadRequestException('Un deck público debe ser legal');
     deck.public = isPublic;
     return this.deckRepo.save(deck);
   }
@@ -118,24 +121,22 @@ export class DecksService {
 
     const result = this.resultRepo.create({
       deckId,
-      versionId:        dto.versionId,
-      opponentLegendId: dto.opponentLegendId,
-      result:           dto.result,
-      gamesWon:         dto.gamesWon,
-      gamesLost:        dto.gamesLost,
-      playedAt:         new Date(dto.playedAt),
-      notes:            dto.notes ?? null,
+      gameEventId: dto.gameEventId,
+      games:       dto.games,
     });
 
     await this.resultRepo.save(result);
     await this.recalculateWinRate(deck);
-    return result;
+    return this.resultRepo.findOne({ where: { id: result.id }, relations: ['gameEvent'] }) as Promise<DeckResult>;
   }
 
-  getResults(userId: string, deckId: string): Promise<DeckResult[]> {
-    return this.findOwned(userId, deckId).then(() =>
-      this.resultRepo.findBy({ deckId }),
-    );
+  async getResults(userId: string, deckId: string): Promise<DeckResult[]> {
+    await this.findOwned(userId, deckId);
+    return this.resultRepo.find({
+      where:   { deckId },
+      order:   { createdAt: 'DESC' },
+      relations: ['gameEvent'],
+    });
   }
 
   async remove(userId: string, deckId: string): Promise<void> {
@@ -154,24 +155,13 @@ export class DecksService {
 
   private checkLegal(mainDeck: DeckCardEntry[], battlefields: number[], runes: DeckCardEntry[]): boolean {
     if (mainDeck.length === 0) return false;
-
-    // 40 cartas exactas
     const total = mainDeck.reduce((sum, e) => sum + e.quantity, 0);
     if (total !== 40) return false;
-
-    // Máximo 3 copias por carta
     if (mainDeck.some((e) => e.quantity > 3)) return false;
-
-    // 3 battlefields
     if (battlefields.length !== 3) return false;
-
-    // Sin battlefields repetidos
     if (new Set(battlefields).size !== 3) return false;
-
-    // 12 runas exactas
     const totalRunes = runes.reduce((s, e) => s + e.quantity, 0);
     if (totalRunes !== 12) return false;
-
     return true;
   }
 
@@ -197,9 +187,11 @@ export class DecksService {
     if (results.length === 0) {
       deck.winRate = null;
     } else {
-      const wins  = results.filter((r) => r.result === 'win').length;
-      const draws = results.filter((r) => r.result === 'draw').length;
-      deck.winRate = parseFloat(((wins + draws * 0.5) / results.length * 100).toFixed(2));
+      const allGames   = results.flatMap((r) => r.games);
+      const totalGames = allGames.length;
+      const wins       = allGames.filter((g) => g === 'win').length;
+      const draws      = allGames.filter((g) => g === 'draw').length;
+      deck.winRate = parseFloat(((wins + draws * 0.5) / totalGames * 100).toFixed(2));
     }
     await this.deckRepo.save(deck);
   }
