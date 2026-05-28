@@ -15,7 +15,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CurrentUser } from '../common/decorators/current-user.decorator';
 import { IsPublic } from '../common/decorators/is-public.decorator';
 import type { TokenUser } from '../common/types/token-user.type';
-import { AddResultRqDto } from './dto/add-result-rq.dto';
+import { AddEventRqDto } from './dto/add-event-rq.dto';
 import { CreateDeckRqDto } from './dto/create-deck-rq.dto';
 import { DecksService } from './decks.service';
 
@@ -39,6 +39,12 @@ export class DecksController {
   @IsPublic()
   findPublic() {
     return this.decksService.findPublic();
+  }
+
+  @Get('game-events/all')
+  @IsPublic()
+  getGameEvents() {
+    return this.decksService.findAllGameEvents();
   }
 
   @Get(':id')
@@ -76,23 +82,17 @@ export class DecksController {
     return this.decksService.getVersions(user.sub, id);
   }
 
-  @Post(':id/results')
-  addResult(
+  @Post(':id/events')
+  addEvent(
     @CurrentUser() user: TokenUser,
     @Param('id', ParseUUIDPipe) id: string,
-    @Body() dto: AddResultRqDto,
+    @Body() dto: AddEventRqDto,
   ) {
-    return this.decksService.addResult(user.sub, id, dto);
+    return this.decksService.addEvent(user.sub, id, dto);
   }
 
-  @Get(':id/results')
-  getResults(@CurrentUser() user: TokenUser, @Param('id', ParseUUIDPipe) id: string) {
-    return this.decksService.getResults(user.sub, id);
-  }
-
-  @Get('/game-events/all')
-  @IsPublic()
-  getGameEvents() {
-    return this.decksService.findAllGameEvents();
+  @Get(':id/events')
+  getEvents(@CurrentUser() user: TokenUser, @Param('id', ParseUUIDPipe) id: string) {
+    return this.decksService.getEvents(user.sub, id);
   }
 }

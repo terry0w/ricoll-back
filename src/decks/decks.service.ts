@@ -8,9 +8,9 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { AddResultRqDto } from './dto/add-result-rq.dto';
+import { AddEventRqDto } from './dto/add-event-rq.dto';
 import { CreateDeckRqDto } from './dto/create-deck-rq.dto';
-import { DeckResult } from './entities/deck-result.entity';
+import { DeckEvent } from './entities/deck-event.entity';
 import { DeckVersion } from './entities/deck-version.entity';
 import { Deck, DeckCardEntry } from './entities/deck.entity';
 import { GAME_EVENT_SEEDS, GameEvent } from './entities/game-event.entity';
@@ -22,8 +22,8 @@ export class DecksService implements OnModuleInit {
     private readonly deckRepo: Repository<Deck>,
     @InjectRepository(DeckVersion)
     private readonly versionRepo: Repository<DeckVersion>,
-    @InjectRepository(DeckResult)
-    private readonly resultRepo: Repository<DeckResult>,
+    @InjectRepository(DeckEvent)
+    private readonly eventRepo: Repository<DeckEvent>,
     @InjectRepository(GameEvent)
     private readonly gameEventRepo: Repository<GameEvent>,
   ) {}
@@ -116,25 +116,22 @@ export class DecksService implements OnModuleInit {
     return this.versionRepo.findBy({ deckId });
   }
 
-  async addResult(userId: string, deckId: string, dto: AddResultRqDto): Promise<DeckResult> {
+  async addEvent(userId: string, deckId: string, dto: AddEventRqDto): Promise<DeckEvent> {
     const deck = await this.findOwned(userId, deckId);
 
-    const result = this.resultRepo.create({
-      deckId,
-      gameEventId: dto.gameEventId,
-      games:       dto.games,
-    });
+    const saved = await this.eventRepo.save(
+      this.eventRepo.create({ deckId, gameEventId: dto.gameEventId, matches: dto.matches }),
+    );
 
-    await this.resultRepo.save(result);
     await this.recalculateWinRate(deck);
-    return this.resultRepo.findOne({ where: { id: result.id }, relations: ['gameEvent'] }) as Promise<DeckResult>;
+    return this.eventRepo.findOne({ where: { id: saved.id }, relations: ['gameEvent'] }) as Promise<DeckEvent>;
   }
 
-  async getResults(userId: string, deckId: string): Promise<DeckResult[]> {
+  async getEvents(userId: string, deckId: string): Promise<DeckEvent[]> {
     await this.findOwned(userId, deckId);
-    return this.resultRepo.find({
-      where:   { deckId },
-      order:   { createdAt: 'DESC' },
+    return this.eventRepo.find({
+      where:     { deckId },
+      order:     { createdAt: 'DESC' },
       relations: ['gameEvent'],
     });
   }
@@ -183,15 +180,15 @@ export class DecksService implements OnModuleInit {
   }
 
   private async recalculateWinRate(deck: Deck): Promise<void> {
-    const results = await this.resultRepo.findBy({ deckId: deck.id });
-    if (results.length === 0) {
+    const events = await this.eventRepo.findBy({ deckId: deck.id });
+    if (events.length === 0) {
       deck.winRate = null;
     } else {
-      const allGames   = results.flatMap((r) => r.games);
-      const totalGames = allGames.length;
-      const wins       = allGames.filter((g) => g === 'win').length;
-      const draws      = allGames.filter((g) => g === 'draw').length;
-      deck.winRate = parseFloat(((wins + draws * 0.5) / totalGames * 100).toFixed(2));
+      const allRounds   = events.flatMap((e) => e.matches.flatMap((m) => m.rounds));
+      const totalRounds = allRounds.length;
+      const wins        = allRounds.filter((r) => r === 'win').length;
+      const draws       = allRounds.filter((r) => r === 'draw').length;
+      deck.winRate = parseFloat(((wins + draws * 0.5) / totalRounds * 100).toFixed(2));
     }
     await this.deckRepo.save(deck);
   }
