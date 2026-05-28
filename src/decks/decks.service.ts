@@ -6,10 +6,13 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
+import { Card } from '../catalog/entities/card.entity';
+import { User } from '../users/entities/user.entity';
 import { AddEventRqDto } from './dto/add-event-rq.dto';
 import { CreateDeckRqDto } from './dto/create-deck-rq.dto';
+import { GetPublicDecksRqDto } from './dto/get-public-decks-rq.dto';
 import { DeckEvent } from './entities/deck-event.entity';
 import { DeckVersion } from './entities/deck-version.entity';
 import { Deck, DeckCardEntry } from './entities/deck.entity';
@@ -26,6 +29,10 @@ export class DecksService implements OnModuleInit {
     private readonly eventRepo: Repository<DeckEvent>,
     @InjectRepository(GameEvent)
     private readonly gameEventRepo: Repository<GameEvent>,
+    @InjectRepository(User)
+    private readonly userRepo: Repository<User>,
+    @InjectRepository(Card)
+    private readonly cardRepo: Repository<Card>,
   ) {}
 
   async onModuleInit() {
@@ -103,12 +110,45 @@ export class DecksService implements OnModuleInit {
     return this.deckRepo.findBy({ userId });
   }
 
-  findPublic(): Promise<Deck[]> {
-    return this.deckRepo.findBy({ public: true, legal: true });
+  async findPublic(dto: GetPublicDecksRqDto) {
+    const qb = this.deckRepo.createQueryBuilder('d')
+      .where('d.public = :pub AND d.legal = :leg', { pub: true, leg: true });
+
+    if (dto.name)     qb.andWhere('d.name ILIKE :name',         { name: `%${dto.name}%` });
+    if (dto.legendId) qb.andWhere('d.legend_id = :legendId',    { legendId: dto.legendId });
+
+    const decks = await qb.orderBy('d.updated_at', 'DESC').getMany();
+    if (!decks.length) return [];
+
+    const userIds  = [...new Set(decks.map((d) => d.userId))];
+    const users    = await this.userRepo.findBy({ id: In(userIds) });
+    const nickMap  = new Map(users.map((u) => [u.id, u.nickname ?? u.username]));
+
+    const allCardIds = [...new Set(decks.flatMap((d) => [
+      ...d.mainDeck.map((e) => e.cardId),
+      ...(Array.isArray(d.runes) ? d.runes.map((e) => e.cardId) : []),
+      ...d.battlefields,
+      ...(d.sideboard ?? []).map((e) => e.cardId),
+    ]))];
+    const cards    = await this.cardRepo.findBy({ productId: In(allCardIds) });
+    const priceMap = new Map(cards.map((c) => [c.productId, Number(c.marketPrice ?? c.lowPrice ?? 0)]));
+
+    return decks.map((d) => ({
+      id:             d.id,
+      name:           d.name,
+      legendId:       d.legendId,
+      winRate:        d.winRate !== null ? Number(d.winRate) : null,
+      currentVersion: d.currentVersion,
+      updatedAt:      d.updatedAt,
+      authorNickname: nickMap.get(d.userId) ?? 'Desconocido',
+      estimatedCost:  this.computeDeckCost(d, priceMap),
+    }));
   }
 
-  async findOne(userId: string, deckId: string): Promise<Deck> {
-    return this.findOwned(userId, deckId);
+  async findOne(userId: string, deckId: string): Promise<Deck & { authorNickname: string }> {
+    const deck = await this.findOwned(userId, deckId);
+    const user = await this.userRepo.findOne({ where: { id: userId } });
+    return Object.assign(deck, { authorNickname: user?.nickname ?? user?.username ?? '' });
   }
 
   async getVersions(userId: string, deckId: string): Promise<DeckVersion[]> {
@@ -153,6 +193,25 @@ export class DecksService implements OnModuleInit {
   }
 
   // ── Private helpers ──────────────────────────────────────────────────────────
+
+  private computeDeckCost(deck: Deck, priceMap: Map<number, number>): number | null {
+    const entries = [
+      ...deck.mainDeck,
+      ...(Array.isArray(deck.runes) ? deck.runes : []),
+      ...(deck.sideboard ?? []),
+    ];
+    let total  = 0;
+    let hasAny = false;
+    for (const e of entries) {
+      const p = priceMap.get(e.cardId);
+      if (p) { total += p * e.quantity; hasAny = true; }
+    }
+    for (const id of deck.battlefields) {
+      const p = priceMap.get(id);
+      if (p) { total += p; hasAny = true; }
+    }
+    return hasAny ? Math.round(total * 100) / 100 : null;
+  }
 
   private async findOwned(userId: string, deckId: string): Promise<Deck> {
     const deck = await this.deckRepo.findOneBy({ id: deckId });

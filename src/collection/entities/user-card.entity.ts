@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from 'typeorm'
 
 @Entity('user_cards')
-@Unique(['userId', 'productId'])
+@Unique(['userId', 'productId', 'subTypeName'])
 export class UserCard {
   @PrimaryGeneratedColumn('uuid')
   id!: string
@@ -11,6 +11,9 @@ export class UserCard {
 
   @Column({ name: 'product_id', type: 'int' })
   productId!: number
+
+  @Column({ name: 'sub_type_name', length: 20, default: 'Normal' })
+  subTypeName!: string
 
   @Column({ type: 'int', default: 1 })
   quantity!: number

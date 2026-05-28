@@ -17,6 +17,7 @@ import { IsPublic } from '../common/decorators/is-public.decorator';
 import type { TokenUser } from '../common/types/token-user.type';
 import { AddEventRqDto } from './dto/add-event-rq.dto';
 import { CreateDeckRqDto } from './dto/create-deck-rq.dto';
+import { GetPublicDecksRqDto } from './dto/get-public-decks-rq.dto';
 import { DecksService } from './decks.service';
 
 @Controller('decks')
@@ -37,8 +38,8 @@ export class DecksController {
 
   @Get('public')
   @IsPublic()
-  findPublic() {
-    return this.decksService.findPublic();
+  findPublic(@Query() query: GetPublicDecksRqDto) {
+    return this.decksService.findPublic(query);
   }
 
   @Get('game-events/all')

@@ -41,6 +41,11 @@ export class CatalogController {
     return this.catalogService.getFilterOptions();
   }
 
+  @Get(':id/variants')
+  getVariants(@Param('id', ParseIntPipe) id: number): Promise<Variant[]> {
+    return this.catalogService.getVariantsByProductId(id);
+  }
+
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number): Promise<Card | null> {
     return this.catalogService.findOne(id);

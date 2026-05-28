@@ -15,8 +15,8 @@ export class CollectionService {
     return this.userCardRepo.findBy({ userId })
   }
 
-  async patchEntry(userId: string, productId: number, delta: number): Promise<UserCard | null> {
-    const entry = await this.userCardRepo.findOneBy({ userId, productId })
+  async patchEntry(userId: string, productId: number, subTypeName: string, delta: number): Promise<UserCard | null> {
+    const entry = await this.userCardRepo.findOneBy({ userId, productId, subTypeName })
 
     if (entry) {
       entry.quantity = Math.max(0, entry.quantity + delta)
@@ -29,7 +29,7 @@ export class CollectionService {
 
     if (delta <= 0) return null
 
-    const created = this.userCardRepo.create({ userId, productId, quantity: delta })
+    const created = this.userCardRepo.create({ userId, productId, subTypeName, quantity: delta })
     return this.userCardRepo.save(created)
   }
 }

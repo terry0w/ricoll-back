@@ -1,5 +1,6 @@
-import { IsInt, IsNotEmpty } from 'class-validator'
+import { IsInt, IsNotEmpty, IsString } from 'class-validator'
 
 export class PatchEntryDto {
-  @IsInt() @IsNotEmpty() delta!: number
+  @IsInt()    @IsNotEmpty() delta!:       number
+  @IsString() @IsNotEmpty() subTypeName!: string
 }

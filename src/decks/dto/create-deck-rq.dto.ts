@@ -40,6 +40,7 @@ export class CreateDeckRqDto {
   public?: boolean;
 
   @ApiProperty({ example: 12345 })
+
   @IsInt()
   legendId!: number;
 

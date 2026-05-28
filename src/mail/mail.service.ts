@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { MailtrapClient } from 'mailtrap';
+import { Resend } from 'resend';
 
 import { EventsService } from '../events/events.service';
 import { EventStatus, EventType } from '../events/entities/event.entity';
@@ -10,7 +10,7 @@ import { passwordResetTemplate } from './templates/password-reset.template';
 @Injectable()
 export class MailService {
   private readonly logger = new Logger(MailService.name);
-  private readonly client: MailtrapClient;
+  private readonly resend: Resend;
   private readonly from: string;
   private readonly appUrl: string;
 
@@ -18,12 +18,8 @@ export class MailService {
     configService: ConfigService,
     private readonly eventsService: EventsService,
   ) {
-    this.client  = new MailtrapClient({
-      token:       configService.get<string>('MAILTRAP_TOKEN')!,
-      testInboxId: Number(configService.get<string>('MAILTRAP_INBOX_ID')),
-      sandbox:     true,
-    });
-    this.from   = configService.get<string>('MAIL_FROM')!;
+    this.resend  = new Resend(configService.get<string>('RESEND_API_KEY')!);
+    this.from    = configService.get<string>('MAIL_FROM')!;
     this.appUrl  = configService.get<string>('APP_URL')!;
   }
 
@@ -31,9 +27,9 @@ export class MailService {
     this.logger.log(`Sending welcome email to ${to}`);
 
     try {
-      await this.client.send({
-        from:    { email: this.from, name: 'Ricoll' },
-        to:      [{ email: to }],
+      const { error } = await this.resend.emails.send({
+        from:    `Ricoll <${this.from}>`,
+        to:      [to],
         subject: 'Bienvenido a Ricoll',
         html:    welcomeTemplate({
           nickname,
@@ -41,6 +37,8 @@ export class MailService {
           verifyLink: `${this.appUrl}/verify-email?token=${verifyToken}`,
         }),
       });
+
+      if (error) throw new Error(error.message);
 
       await this.eventsService.log({
         type:      EventType.EMAIL,
@@ -66,9 +64,9 @@ export class MailService {
     this.logger.log(`Sending password reset email to ${to}`);
 
     try {
-      await this.client.send({
-        from:    { email: this.from, name: 'Ricoll' },
-        to:      [{ email: to }],
+      const { error } = await this.resend.emails.send({
+        from:    `Ricoll <${this.from}>`,
+        to:      [to],
         subject: 'Recuperar contraseña — Ricoll',
         html:    passwordResetTemplate({
           nickname,
@@ -76,6 +74,8 @@ export class MailService {
           resetLink: `${this.appUrl}/reset-password?token=${resetToken}`,
         }),
       });
+
+      if (error) throw new Error(error.message);
 
       await this.eventsService.log({
         type:      EventType.EMAIL,

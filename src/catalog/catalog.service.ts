@@ -122,6 +122,10 @@ export class CatalogService {
     };
   }
 
+  getVariantsByProductId(productId: number): Promise<Variant[]> {
+    return this.variantRepo.findBy({ productId })
+  }
+
   getCardsAndVariants(dto: GetCardsRqDto): Promise<Variant[]> {
     this.logger.log(`Fetching cards with variants — limit: ${dto.limit}, offset: ${dto.offset}`);
     return this.variantRepo.query(

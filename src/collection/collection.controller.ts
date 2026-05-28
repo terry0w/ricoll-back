@@ -23,6 +23,6 @@ export class CollectionController {
     @Param('productId', ParseIntPipe) productId: number,
     @Body() dto: PatchEntryDto,
   ) {
-    return this.collectionService.patchEntry(user.sub, productId, dto.delta)
+    return this.collectionService.patchEntry(user.sub, productId, dto.subTypeName, dto.delta)
   }
 }
