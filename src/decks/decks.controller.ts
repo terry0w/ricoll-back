@@ -95,4 +95,14 @@ export class DecksController {
   getEvents(@CurrentUser() user: TokenUser, @Param('id', ParseUUIDPipe) id: string) {
     return this.decksService.getEvents(user.sub, id);
   }
+
+  @Patch(':id/events/:eventId')
+  updateEvent(
+    @CurrentUser() user: TokenUser,
+    @Param('id', ParseUUIDPipe) id: string,
+    @Param('eventId', ParseUUIDPipe) eventId: string,
+    @Body() dto: AddEventRqDto,
+  ) {
+    return this.decksService.updateEvent(user.sub, id, eventId, dto);
+  }
 }

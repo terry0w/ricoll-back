@@ -136,6 +136,17 @@ export class DecksService implements OnModuleInit {
     });
   }
 
+  async updateEvent(userId: string, deckId: string, eventId: string, dto: AddEventRqDto): Promise<DeckEvent> {
+    const deck  = await this.findOwned(userId, deckId);
+    const event = await this.eventRepo.findOne({ where: { id: eventId, deckId } });
+    if (!event) throw new NotFoundException('Evento no encontrado');
+    event.gameEventId = dto.gameEventId;
+    event.matches     = dto.matches;
+    await this.eventRepo.save(event);
+    await this.recalculateWinRate(deck);
+    return this.eventRepo.findOne({ where: { id: eventId }, relations: ['gameEvent'] }) as Promise<DeckEvent>;
+  }
+
   async remove(userId: string, deckId: string): Promise<void> {
     const deck = await this.findOwned(userId, deckId);
     await this.deckRepo.remove(deck);
