@@ -1,5 +1,6 @@
-import { Controller, Get, Param, ParseIntPipe, Query } from '@nestjs/common';
+import { Controller, Get, NotFoundException, Param, ParseIntPipe, Query, Res } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import type { Response } from 'express';
 
 import { IsPublic } from '../common/decorators/is-public.decorator';
 import { CatalogService } from './catalog.service';
@@ -39,6 +40,16 @@ export class CatalogController {
   @Get('filter-options')
   getFilterOptions(): Promise<FilterOptionsRsDto> {
     return this.catalogService.getFilterOptions();
+  }
+
+  @Get('image-proxy')
+  async imageProxy(@Query('url') url: string, @Res() res: Response): Promise<void> {
+    const response = await fetch(url);
+    if (!response.ok) throw new NotFoundException('Imagen no encontrada');
+    const buffer = Buffer.from(await response.arrayBuffer());
+    res.set('Content-Type', response.headers.get('content-type') ?? 'image/jpeg');
+    res.set('Cache-Control', 'public, max-age=86400');
+    res.send(buffer);
   }
 
   @Get(':id/variants')
