@@ -52,6 +52,7 @@ export class AuthService {
     const user = await this.usersService.findByEmail(dto.email);
     if (!user) throw new UnauthorizedException('Credenciales incorrectas');
 
+    if (!user.password) throw new UnauthorizedException('Esta cuenta usa Google para iniciar sesión');
     const valid = await bcrypt.compare(dto.password, user.password);
     if (!valid) throw new UnauthorizedException('Credenciales incorrectas');
 
@@ -105,6 +106,10 @@ export class AuthService {
 
     this.logger.log(`Password reset for: ${user.email}`);
     return { message: 'Contraseña actualizada correctamente' };
+  }
+
+  loginWithGoogle(user: User): AuthRsDto {
+    return this.buildResponse(user);
   }
 
   private buildResponse(user: User): AuthRsDto {

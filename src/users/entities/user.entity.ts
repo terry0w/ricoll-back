@@ -14,8 +14,11 @@ export class User {
   @Column({ type: 'varchar', unique: true, length: 50, nullable: true })
   nickname!: string | null;
 
-  @Column()
-  password!: string;
+  @Column({ type: 'varchar', nullable: true })
+  password!: string | null;
+
+  @Column({ name: 'google_id', type: 'varchar', unique: true, nullable: true })
+  googleId!: string | null;
 
   @Column({ type: 'varchar', nullable: true })
   verificationToken!: string | null;
