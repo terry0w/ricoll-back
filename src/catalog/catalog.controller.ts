@@ -1,4 +1,13 @@
-import { Controller, Get, NotFoundException, Param, ParseIntPipe, Query, Res } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  ParseIntPipe,
+  Query,
+  Res,
+} from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import type { Response } from 'express';
 
@@ -8,6 +17,19 @@ import { FilterOptionsRsDto } from './dto/filter-options-rs.dto';
 import { GetCardsRqDto } from './dto/get-cards-rq.dto';
 import { Card } from './entities/card.entity';
 import { Variant } from './entities/variant.entity';
+
+// Solo se permite hacer proxy de imágenes del CDN de cartas (evita SSRF)
+const IMAGE_PROXY_HOSTS = new Set(['tcgplayer-cdn.tcgplayer.com']);
+
+export function isAllowedImageUrl(url: string | undefined): boolean {
+  if (!url) return false;
+  try {
+    const parsed = new URL(url);
+    return parsed.protocol === 'https:' && IMAGE_PROXY_HOSTS.has(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
 
 @Controller('catalog')
 @ApiTags('catalog')
@@ -44,7 +66,8 @@ export class CatalogController {
 
   @Get('image-proxy')
   async imageProxy(@Query('url') url: string, @Res() res: Response): Promise<void> {
-    const response = await fetch(url);
+    if (!isAllowedImageUrl(url)) throw new BadRequestException('URL de imagen no permitida');
+    const response = await fetch(url, { redirect: 'error' });
     if (!response.ok) throw new NotFoundException('Imagen no encontrada');
     const buffer = Buffer.from(await response.arrayBuffer());
     res.set('Content-Type', response.headers.get('content-type') ?? 'image/jpeg');
