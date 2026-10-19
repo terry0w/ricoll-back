@@ -6,6 +6,7 @@ REST API for **Ricoll**, a web app for managing your collection and decks for th
 
 > Frontend: [terry0w/ricoll-front](https://github.com/terry0w/ricoll-front)
 
+[![CI](https://github.com/terry0w/ricoll-back/actions/workflows/ci.yml/badge.svg)](https://github.com/terry0w/ricoll-back/actions/workflows/ci.yml)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
 ![NestJS](https://img.shields.io/badge/NestJS_11-E0234E?logo=nestjs&logoColor=white)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-4169E1?logo=postgresql&logoColor=white)
@@ -43,7 +44,7 @@ REST API for **Ricoll**, a web app for managing your collection and decks for th
 - **Transactional email** with HTML templates sent through [Resend](https://resend.com). Every send,
   successful or failed, is logged to an `events` table for auditing.
 - **Image proxy** endpoint, so the frontend can embed card images in client-generated PDFs without
-  hitting CORS errors.
+  hitting CORS errors. Only https URLs from the card CDN are accepted, which prevents SSRF.
 - **OpenAPI docs** generated with Swagger at `/api`.
 
 ## Architecture
@@ -170,10 +171,11 @@ The API listens on `http://localhost:3000` and the docs are at `http://localhost
 ## Roadmap
 
 - [ ] Unit tests for the domain logic (deck legality, win rate, collection) and e2e tests with Supertest
-- [ ] Restrict the image proxy to an allowlist of domains
+- [x] Restrict the image proxy to an allowlist of domains
 - [ ] Replace `synchronize` with versioned TypeORM migrations
 - [ ] Rate limiting on the auth endpoints
-- [ ] CI pipeline with GitHub Actions (lint, build, tests) and deployment
+- [x] CI with GitHub Actions (build + unit tests on every push)
+- [ ] Enforce lint in CI and add automated deployment
 
 ## Data and disclaimer
 
